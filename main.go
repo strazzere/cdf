@@ -8,7 +8,7 @@ import (
 	"math/rand"
 	"os"
 
-	"github.com/kudelskisecurity/cdf/cdf-lib"
+	"cdf-lib"
 )
 
 var interf string

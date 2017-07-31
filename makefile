@@ -3,6 +3,8 @@ BIN = cdf
 
 SRC = main.go
 
+GOPATH=$(PWD)
+
 .DEFAULT_GOAL = build
 
 .PHONY: clean format examples
@@ -23,7 +25,7 @@ format:         $(SRC)
 	        	$(foreach f, $(SRC), gofmt -w $(f))
 
 test:
-				go test -v ./cdf-lib
+				go test -v ./src/cdf-lib
 
 clean:         
 	        	rm -f $(BIN); cd examples/; make clean
