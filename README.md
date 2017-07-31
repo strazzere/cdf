@@ -1,6 +1,6 @@
 # CDF – crypto differential fuzzing
 
-CDF is a tool to aumatically test the correctness and security of cryptographic
+CDF is a tool to automatically test the correctness and security of cryptographic
 software.  CDF can detect implementation errors, compliance failures,
 side-channel leaks, and so on.
 
@@ -60,16 +60,16 @@ You may then try an example such as the [`rsaenc`](#rsaenc-rsa-encryption-oaep-o
 interface against the RSA OAEP Go and CryptoPP examples. Viewing CryptoPP as
 our reference, you can test the Go implementation by doing:  
 ```
-cdf rsaenc /examples/oaep_rsa2048_go /examples/oaep_rsa2048_cryptopp
+$./cdf rsaenc ./examples/oaep_rsa2048_go ./examples/oaep_rsa2048_cryptopp
 ```   
-This command will perform various tests specific to the `rsaenc` interface. 
+This command will perform various tests specific to the `rsaenc` interface.
 
 In this example, CDF should complain about the maximum public exponent size the Go implementation support: if we
 check [its code](https://golang.org/src/crypto/rsa/rsa.go#L42) we can see the
 public exponent is being stored as a normal integer, whereas in CryptoPP (and
 most other implementations), it is stored as a big integer.  This
 is however [by design](https://www.imperialviolet.org/2012/03/16/rsae.html) and
-will likely not be changed. 
+will likely not be changed.
 
 Parameters are defined in [config.json](config.json).
 Most parameters are self-explanatory. You may want to set others private
@@ -81,7 +81,7 @@ like the OAEP examples.) The `concurrency` parameter lets you set the number
 of concurrent goroutine CDF should be spawning when forking the programs. Note
 that it is best to keep this number below the real number of cores.  The
 `verboseLog` parameter, if set to `true`, will write all programs' inputs and
-outputs, even for the succesful tests, to a file log.txt.
+outputs, even for the successful tests, to a file log.txt.
 
 
 # Interfaces
@@ -91,13 +91,13 @@ CDF interfaces are abstractions of a crypto functionality, in order to allow bla
 
 For example, if you implemented the ECDSA signature scheme, your program should satisfies the [`ecdsa`
 interface](#ecdsa-ecdsa-signatures) and as such take as inputs 4 or 5 arguments,
-respectively in order to sign a message or verify a signature. These arguments are the public X coordinate, the public Y coordinate, the private D big integer and the message you want to sign and then it should output only the big integers R and S each on a newline. Or, to verify a message, it should accept X,Y, the R, the S and the message and then it should only output True or False. The interfaces' specifications are detailled [below](#interfaces).
+respectively in order to sign a message or verify a signature. These arguments are the public X coordinate, the public Y coordinate, the private D big integer and the message you want to sign and then it should output only the big integers R and S each on a newline. Or, to verify a message, it should accept X,Y, the R, the S and the message and then it should only output True or False. The interfaces' specifications are detailed [below](#interfaces).
 
 Our [examples](#examples) of interface implementations will help you create your owns.
 
 Error handling is left to the tested program, however to have meaningful errors in CDF it is best to exit on failure, return a error code and print an error message.
 
-The interface program can be written in any language, it just needs to be an executable file conformant with a CDF interface.
+The interface program can be written in any language, it just needs to be an executable file which conforms to a CDF interface.
 An interface program is typically written in the same language as the tested program, but that's not mandatory (it may be a wrapper in another language, for example for Java programs).
 
 CDF currently supports the following interfaces, wherein parameters are encoded as hexadecimal ASCII strings, unless described otherwise:
@@ -114,7 +114,7 @@ The dsa interface tests implementations of the [Digital Signature Algorithm](htt
 Here p, q, g are DSA parameters, y is a public key, x is a private key, m is a message, r and s form the signature, which must returned separated by a newline. The truth value, either “true” or “false”, is represented as a string.
 
 The dsa interface supports an optional test: the`-h` allows to bypass the hashing process and directly
-provide the hash value to be signed. This allows CDF to perform more tests, such as checking for overflows or hash truncation. 
+provide the hash value to be signed. This allows CDF to perform more tests, such as checking for overflows or hash truncation.
 
 ## ecdsa
 
@@ -184,4 +184,3 @@ CDF is based on initial ideas by [JP Aumasson](https://github.com/veorq), first 
 CDF is copyright (c) 2016-2017 Nagravision SA, all rights reserved.
 
 CDF is released under GPLv3.
-
